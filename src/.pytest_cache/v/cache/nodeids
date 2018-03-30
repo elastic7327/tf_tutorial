@@ -1,0 +1,4 @@
+[
+  "tests/test_smoke.py::SquareTest::testSquare",
+  "tests/test_smoke.py::SquareTest::test_session"
+]
