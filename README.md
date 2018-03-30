@@ -1,4 +1,2 @@
 # tf_tutorial
-
-# tendorflow tutorial 
-
+# Tensorflow tutorial  + Test Driven Development
