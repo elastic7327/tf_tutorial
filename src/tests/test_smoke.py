@@ -70,16 +70,21 @@ class SquareTest(TensorFlowTestBase):
             X = tf.placeholder(tf.float32, name="X")
             Y = tf.placeholder(tf.float32, name="Y")
 
-            hypothesis = W * X + b
+            # Hypothesis 예측값
+            # W: Weight: 가중치
+            # X: X 값
+            # b: Bias: 편향
 
+            hypothesis = W * X + b # 예측값은 => 가중치 곱하기 미지수에 편향(바이어스)를 더한값이다.
+
+            # 함수 그대로 영어로 해석해보자, 나중에 깊이 공부를 하게 되는경우 이게 매우 중요할것같다.
+            # 비용 => 예측값과 실제값을 뺀뒤에 제곱을해서, 평균을 내어구한다.
             cost = tf.reduce_mean(tf.square(hypothesis - Y))
-
             # learning_rate 값에 따라서 학습 시간이 매우 차이가 나기때문에, 적절한 값을 삽입해주는것이 중요
             optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1)
             train_op = optimizer.minimize(cost)
 
             sess.run(tf.global_variables_initializer())
-
 
             # 최적화를 수행하는 그래프인 train_op를 실행하고, 실행시 마다 변화하는 손실값을 출력하는코드
 
