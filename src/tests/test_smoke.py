@@ -4,6 +4,10 @@ from src.tests.base import TensorFlowTestBase
 
 import pytest
 
+import logging
+# logging.warning('Watch out!')  # will print a message to the console
+# logging.info('I told you so')  # will not print anything
+
 class SquareTest(TensorFlowTestBase):
 
     @pytest.mark.skip(reason="skip it for a moment")
@@ -31,6 +35,7 @@ class SquareTest(TensorFlowTestBase):
             print(sess.run([a, b, c])) # 분명 리스트를 반환 해줍니다.
 
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_placeholder(self):
 
         with self.test_session() as sess:
@@ -52,3 +57,41 @@ class SquareTest(TensorFlowTestBase):
             print(sess.run(b))
 
             print(sess.run(expr, feed_dict={X: x_data}))
+
+    def test_linear_regression(self):
+        with self.test_session() as sess:
+            x_data = [1, 2, 3]
+            y_data = [1, 2, 3]
+
+            # -1.0 부터 1.0 사이의 균등분포 를 가진 무작위 값으로 초기화
+            W = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
+            b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
+
+            X = tf.placeholder(tf.float32, name="X")
+            Y = tf.placeholder(tf.float32, name="Y")
+
+            hypothesis = W * X + b
+
+            cost = tf.reduce_mean(tf.square(hypothesis - Y))
+
+            # learning_rate 값에 따라서 학습 시간이 매우 차이가 나기때문에, 적절한 값을 삽입해주는것이 중요
+            optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.1)
+            train_op = optimizer.minimize(cost)
+
+            sess.run(tf.global_variables_initializer())
+
+
+            # 최적화를 수행하는 그래프인 train_op를 실행하고, 실행시 마다 변화하는 손실값을 출력하는코드
+
+            for step in range(100):
+                _, cost_val = sess.run(
+                        [train_op, cost],
+                        feed_dict={
+                            X: x_data,
+                            Y: y_data,
+                            }
+                        )
+                print(step, cost_val, sess.run(W), sess.run(b))
+
+            print("X: 5, Y: {}", sess.run(hypothesis, feed_dict={X: 5}))
+            print("X: 2.5, Y: {}", sess.run(hypothesis, feed_dict={X: 2.5}))
