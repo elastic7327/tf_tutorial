@@ -88,6 +88,10 @@ class SquareTest(TensorFlowTestBase):
 
             # 최적화를 수행하는 그래프인 train_op를 실행하고, 실행시 마다 변화하는 손실값을 출력하는코드
 
+            # 최적화 함수란, 가중치와 편향값 Weight, bias 값을 변경해가면서 손실값을 최소화하는 가장 최적화된 가중치
+            # 와 편향값을 찾아주는 함수이다.!
+            # 이때 값들을 무작위로 변경하면 시간이 너무 오래걸리고 학습 시간도 예측하기 어려울것이다. 항상 적.절.하.게
+
             for step in range(100):
                 _, cost_val = sess.run(
                         [train_op, cost],
