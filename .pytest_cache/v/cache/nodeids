@@ -1,5 +1,7 @@
 [
   "src/tests/test_smoke.py::TensorFlowTestBase::test_session",
-  "src/tests/test_smoke.py::SquareTest::testSquare",
-  "src/tests/test_smoke.py::SquareTest::test_session"
+  "src/tests/test_smoke.py::SquareTest::test_add_tensors",
+  "src/tests/test_smoke.py::SquareTest::test_hello_tensorflow",
+  "src/tests/test_smoke.py::SquareTest::test_session",
+  "src/tests/test_smoke.py::SquareTest::test_square"
 ]
