@@ -1,4 +1,1 @@
-{
-  "src/tests/test_chapter_04.py::TensorFlowTestBase": true,
-  "src/tests/test_chapter_04.py::TestBasicNNetwork": true
-}
+{}
