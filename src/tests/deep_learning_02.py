@@ -100,6 +100,7 @@ class TestBasicNNetwork(TensorFlowTestBase):
         with self.test_session() as sess:
             print(sess.run(y, feed_dict={x: data}))
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_read_exported_pb_file(self):
         """
         간단하게만든, 모델
@@ -151,7 +152,6 @@ class TestBasicNNetwork(TensorFlowTestBase):
             print(preds)
 
 
-    @pytest.mark.skip(reason="skip it for a moment")
     def test_tensor_board(self):
         input_value = tf.constant(0.5, name="input_value")
         weight = tf.Variable(1.0, name="weight")
@@ -160,10 +160,17 @@ class TestBasicNNetwork(TensorFlowTestBase):
         # mul_ = tf.multiply(constant_A, constant_C)
         loss_function = (model - expected_output)**2 # 보통 이렇게 제곱을 해서 구함 손실률
 
-        optim = tf.train.GradientDescentOptimizer(learning_rate=0.025)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.025).minimize(loss_function)
 
-        summaries = tf.merge_all_summaries()
-        summary_writer = tf.summary.FileWriter('log_simple_stats', sess.graph)
+        for value in [input_value, expected_output, model, loss_function]:
+            tf.summary.scalar(value.op.name, value)
+
+        summaries = tf.summary.merge_all()
 
         with self.test_session() as sess:
-            pass
+            summary_writer = tf.summary.FileWriter('log_simple_stats', sess.graph)
+            sess.run(tf.global_variables_initializer())
+
+            for i in range(100):
+                summary_writer.add_summary(sess.run(summaries), i)
+                sess.run(optimizer)
