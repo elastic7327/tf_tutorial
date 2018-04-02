@@ -2,6 +2,7 @@
   "src/tests/deep_learning_02.py::TensorFlowTestBase::test_session",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_basic_network",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_convert_to_tensor_test",
+  "src/tests/deep_learning_02.py::TestBasicNNetwork::test_go_get_tensor",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_session",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_update_value_test",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_what_is_rank"

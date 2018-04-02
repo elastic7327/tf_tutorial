@@ -8,6 +8,7 @@ from src.tests.base import TensorFlowTestBase
 
 class TestBasicNNetwork(TensorFlowTestBase):
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_basic_network(self):
         with self.test_session() as sess:
             x = tf.placeholder(tf.float32, [1], name="x")
@@ -21,6 +22,7 @@ class TestBasicNNetwork(TensorFlowTestBase):
 
             print(y_output)
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def other_basic_exmaple(self):
         with self.test_session() as sess:
             x = tf.placeholder(tf.float32, [1], name="x")
@@ -31,6 +33,7 @@ class TestBasicNNetwork(TensorFlowTestBase):
 
             print(y_out)
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_what_is_rank(self):
         with self.test_session() as sess:
             scalar = tf.constant(100)
@@ -49,15 +52,15 @@ class TestBasicNNetwork(TensorFlowTestBase):
             print(tendor_1d.get_shape())
             print(sess.run(tendor_1d))
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_convert_to_tensor_test(self):
         with self.test_session() as sess:
             tendor_3d = np.array([[[1, 2, 3], [4, 5, 6], [7, 8, 9]]])
-
             tendor_3d = tf.convert_to_tensor(tendor_3d, dtype=tf.float64)
-
             print(tendor_3d.get_shape())
             print(sess.run(tendor_3d))
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_update_value_test(self):
         one = tf.constant(1)
         value = tf.Variable(0, name="value")
@@ -71,3 +74,17 @@ class TestBasicNNetwork(TensorFlowTestBase):
             for _ in range(10):
                 sess.run(update_value)
                 print(sess.run(value))
+
+    def test_go_get_tensor(self):
+        constant_A = tf.constant([100.0])
+        constant_B = tf.constant([300.0])
+        constant_C = tf.constant([3.0])
+
+        sum_ = tf.add(constant_A, constant_B)
+
+        mul_ = tf.multiply(constant_A, constant_C)
+
+        with self.test_session() as sess:
+            result = sess.run([sum_, mul_])
+            print(result)
+
