@@ -87,6 +87,7 @@ class TestBasicNNetwork(TensorFlowTestBase):
             result = sess.run([sum_, mul_])
             print(result)
 
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_basic_feed_example(self):
         a = 3
         b = 3
@@ -99,6 +100,52 @@ class TestBasicNNetwork(TensorFlowTestBase):
         with self.test_session() as sess:
             print(sess.run(y, feed_dict={x: data}))
 
+    def test_read_exported_pb_file(self):
+        import os
+        fm = "frozen_model.pb"
+        MODEL_PATH = os.getcwd() + "/src/tests/" + fm
+        # Read the graph definition file
+        with open(MODEL_PATH, 'rb') as f:
+                graph_def = tf.GraphDef()
+                graph_def.ParseFromString(f.read())
+
+                # Load the graph stored in `graph_def` into `graph`
+        graph = tf.Graph()
+        with graph.as_default():
+            tf.import_graph_def(graph_def, name='')
+
+        # Enforce that no new nodes are added
+        graph.finalize()
+
+        # input_x = tf.constant([0.5182681243, 0.7029702970297029, 42.88, 0.04271770496])
+        # out_y = tf.placeholder(tf.float32, shape=[1, 3], name="pred")
+        input_op = graph.get_operation_by_name('place_x_data')
+        input_tensor = input_op.outputs[0]
+
+        out_op = graph.get_operation_by_name('model_output/output')
+        output_tensor = out_op.outputs[0]
+
+
+        is_training_op = graph.get_operation_by_name('is_training')
+        is_training_tensor = is_training_op.outputs[0]
+
+        x = np.array([[0.5182681243, 0.7029702970297029, 42.88, 0.04271770496]]) - 5
+
+        sess_config = tf.ConfigProto(
+                    log_device_placement=False,
+                    allow_soft_placement = True,
+                    gpu_options = tf.GPUOptions(
+                    per_process_gpu_memory_fraction=1
+                    )
+                )
+
+        with self.test_session(graph=graph, config=sess_config) as sess:
+            # pred = sess.run([out_y], feed_dict={x_data: input_x, is_training: False})
+            preds = sess.run(output_tensor, {input_tensor : x, is_training_tensor: False})
+            print(preds)
+
+
+    @pytest.mark.skip(reason="skip it for a moment")
     def test_tensor_board(self):
         input_value = tf.constant(0.5, name="input_value")
         weight = tf.Variable(1.0, name="weight")

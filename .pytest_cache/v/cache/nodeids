@@ -4,6 +4,7 @@
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_basic_network",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_convert_to_tensor_test",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_go_get_tensor",
+  "src/tests/deep_learning_02.py::TestBasicNNetwork::test_read_exported_pb_file",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_session",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_tensor_board",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_update_value_test",
