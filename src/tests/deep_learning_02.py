@@ -101,6 +101,12 @@ class TestBasicNNetwork(TensorFlowTestBase):
             print(sess.run(y, feed_dict={x: data}))
 
     def test_read_exported_pb_file(self):
+        """
+
+        간단하게만든, 모델
+
+
+        """
         import os
         fm = "frozen_model.pb"
         MODEL_PATH = os.getcwd() + "/src/tests/" + fm
@@ -129,7 +135,9 @@ class TestBasicNNetwork(TensorFlowTestBase):
         is_training_op = graph.get_operation_by_name('is_training')
         is_training_tensor = is_training_op.outputs[0]
 
-        x = np.array([[0.5182681243, 0.7029702970297029, 42.88, 0.04271770496]]) - 5
+        # x = np.array([[0.5182681243, 0.7029702970297029, 42.88, 0.04271770496]]) - 5
+
+        x = np.array([[0.41223225,  0.2883028 , -0.41692871, -0.47985082]])
 
         sess_config = tf.ConfigProto(
                     log_device_placement=False,
