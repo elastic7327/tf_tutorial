@@ -98,3 +98,19 @@ class TestBasicNNetwork(TensorFlowTestBase):
 
         with self.test_session() as sess:
             print(sess.run(y, feed_dict={x: data}))
+
+    def test_tensor_board(self):
+        input_value = tf.constant(0.5, name="input_value")
+        weight = tf.Variable(1.0, name="weight")
+        expected_output = tf.constant(0.0, name="expected_output")
+        model = tf.multiply(input_value, weight, name="model")
+        # mul_ = tf.multiply(constant_A, constant_C)
+        loss_function = (model - expected_output)**2 # 보통 이렇게 제곱을 해서 구함 손실률
+
+        optim = tf.train.GradientDescentOptimizer(learning_rate=0.025)
+
+        summaries = tf.merge_all_summaries()
+        summary_writer = tf.summary.FileWriter('log_simple_stats', sess.graph)
+
+        with self.test_session() as sess:
+            pass
