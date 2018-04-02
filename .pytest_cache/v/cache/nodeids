@@ -1,5 +1,6 @@
 [
   "src/tests/deep_learning_02.py::TensorFlowTestBase::test_session",
+  "src/tests/deep_learning_02.py::TestBasicNNetwork::test_basic_feed_example",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_basic_network",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_convert_to_tensor_test",
   "src/tests/deep_learning_02.py::TestBasicNNetwork::test_go_get_tensor",

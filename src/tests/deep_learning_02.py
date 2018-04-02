@@ -81,10 +81,20 @@ class TestBasicNNetwork(TensorFlowTestBase):
         constant_C = tf.constant([3.0])
 
         sum_ = tf.add(constant_A, constant_B)
-
         mul_ = tf.multiply(constant_A, constant_C)
 
         with self.test_session() as sess:
             result = sess.run([sum_, mul_])
             print(result)
 
+    def test_basic_feed_example(self):
+        a = 3
+        b = 3
+
+        x = tf.placeholder(tf.float32, shape=(a, b))
+        y = tf.add(x, x)
+
+        data = np.random.rand(a, b)
+
+        with self.test_session() as sess:
+            print(sess.run(y, feed_dict={x: data}))
