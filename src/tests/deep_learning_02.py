@@ -6,6 +6,7 @@ from src.tests.base import TensorFlowTestBase
 # logging.warning('Watch out!')  # will print a message to the console
 # logging.info('I told you so')  # will not print anything
 
+
 class TestBasicNNetwork(TensorFlowTestBase):
 
     @pytest.mark.skip(reason="skip it for a moment")
@@ -16,7 +17,7 @@ class TestBasicNNetwork(TensorFlowTestBase):
             z = tf.constant(2.0)
             y = x * z
             x_in = [100]
-            y_output =sess.run(y, {x: x_in})
+            y_output = sess.run(y, {x: x_in})
 
             print(y_output)
 
@@ -38,7 +39,7 @@ class TestBasicNNetwork(TensorFlowTestBase):
         with self.test_session() as sess:
             scalar = tf.constant(100)
             vector = tf.constant([1, 2, 3, 4, 5])
-            matrix = tf.constant([[1 ,2, 3], [4 ,5 ,6]])
+            matrix = tf.constant([[1, 2, 3], [4, 5, 6]])
             cube_matrix = tf.constant([[[1], [2], [3]], [[4], [5], [6]]])
 
             print(scalar.get_shape())
@@ -111,10 +112,10 @@ class TestBasicNNetwork(TensorFlowTestBase):
         MODEL_PATH = os.getcwd() + "/src/tests/" + fm
         # Read the graph definition file
         with open(MODEL_PATH, 'rb') as f:
-                graph_def = tf.GraphDef()
-                graph_def.ParseFromString(f.read())
+            graph_def = tf.GraphDef()
+            graph_def.ParseFromString(f.read())
 
-                # Load the graph stored in `graph_def` into `graph`
+            # Load the graph stored in `graph_def` into `graph`
         graph = tf.Graph()
         with graph.as_default():
             tf.import_graph_def(graph_def, name='')
@@ -133,24 +134,25 @@ class TestBasicNNetwork(TensorFlowTestBase):
         is_training_op = graph.get_operation_by_name('is_training')
         is_training_tensor = is_training_op.outputs[0]
 
-        x = np.array([[0.4885082971,  0.4987537388, 20.26, 0.03711279239]]) - 0.5
+        x = np.array(
+            [[0.4885082971,  0.4987537388, 20.26, 0.03711279239]]) - 0.5
         # x = np.array([[0.5182681243, 0.7029702970297029, 42.88, 0.04271770496]]) - 0.5
         # x = np.array([[0.5862493489, 0.4387226393, 52.6, 0.1315004006]]) - 0.5
         # x = np.array([[0.2232405892, 0.2761904762, 143.21, 0.1101585538]]) - 0.5
 
         sess_config = tf.ConfigProto(
-                    log_device_placement=False,
-                    allow_soft_placement = True,
-                    gpu_options = tf.GPUOptions(
-                    per_process_gpu_memory_fraction=1
-                    )
-                )
+            log_device_placement=False,
+            allow_soft_placement=True,
+            gpu_options=tf.GPUOptions(
+                per_process_gpu_memory_fraction=1
+            )
+        )
 
         with self.test_session(graph=graph, config=sess_config) as sess:
             # pred = sess.run([out_y], feed_dict={x_data: input_x, is_training: False})
-            preds = sess.run(output_tensor, {input_tensor : x, is_training_tensor: False})
+            preds = sess.run(
+                output_tensor, {input_tensor: x, is_training_tensor: False})
             print(preds)
-
 
     def test_tensor_board(self):
         input_value = tf.constant(0.5, name="input_value")
@@ -158,9 +160,10 @@ class TestBasicNNetwork(TensorFlowTestBase):
         expected_output = tf.constant(0.0, name="expected_output")
         model = tf.multiply(input_value, weight, name="model")
         # mul_ = tf.multiply(constant_A, constant_C)
-        loss_function = (model - expected_output)**2 # 보통 이렇게 제곱을 해서 구함 손실률
+        loss_function = (model - expected_output)**2  # 보통 이렇게 제곱을 해서 구함 손실률
 
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.025).minimize(loss_function)
+        optimizer = tf.train.GradientDescentOptimizer(
+            learning_rate=0.025).minimize(loss_function)
 
         for value in [input_value, expected_output, model, loss_function]:
             tf.summary.scalar(value.op.name, value)
@@ -168,7 +171,8 @@ class TestBasicNNetwork(TensorFlowTestBase):
         summaries = tf.summary.merge_all()
 
         with self.test_session() as sess:
-            summary_writer = tf.summary.FileWriter('log_simple_stats', sess.graph)
+            summary_writer = tf.summary.FileWriter(
+                'log_simple_stats', sess.graph)
             sess.run(tf.global_variables_initializer())
 
             for i in range(100):
